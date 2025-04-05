@@ -18,15 +18,15 @@ app.use(cors());
 
 // Debug routes
 app.use((req, res, next) => {
-  console.log(`Request received: ${req.method} ${req.url}`);
-  next();
+	console.log(`Request received: ${req.method} ${req.url}`);
+	next();
 });
 
 // Swagger documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/swagger.json', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerSpec);
+	res.setHeader('Content-Type', 'application/json');
+	res.send(swaggerSpec);
 });
 
 // Routes
@@ -34,17 +34,17 @@ app.use(router);
 
 // Initialize database and start server
 initializeDatabase()
-  .then(() => {
-    console.log('Database connection established successfully');
+	.then(() => {
+		console.log('Database connection established successfully');
 
-    // Start server
-    app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
-      console.log(`API Documentation: http://localhost:${port}/api-docs`);
-      console.log(`Articles endpoint: http://localhost:${port}/api/v1/articles`);
-    });
-  })
-  .catch((error) => {
-    console.error('Failed to initialize database:', error);
-    process.exit(1);
-  });
+		// Start server
+		app.listen(port, () => {
+			console.log(`Server is running on port ${port}`);
+			console.log(`API Documentation: http://localhost:${port}/api-docs`);
+			console.log(`Articles endpoint: http://localhost:${port}/api/v1/articles`);
+		});
+	})
+	.catch((error) => {
+		console.error('Failed to initialize database:', error);
+		process.exit(1);
+	});

@@ -1,0 +1,28 @@
+# Version control
+.git/
+.gitignore
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Development files
+.vscode
+tests
+*.log
+
+# Documentation
+*.md
+
+# Editor files
+*.swp
+*.swo
+.DS_Store

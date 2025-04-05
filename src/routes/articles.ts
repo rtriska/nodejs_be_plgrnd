@@ -29,14 +29,14 @@ const router = express.Router();
  *               $ref: '#/components/schemas/Error'
  */
 router.get('/', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const db = getDatabase();
-    const result = await db.select().from(articles);
-    res.json(result);
-  } catch (error) {
-    console.error('Error fetching articles:', error);
-    res.status(500).json({ error: 'Failed to fetch articles' });
-  }
+	try {
+		const db = getDatabase();
+		const result = await db.select().from(articles);
+		res.json(result);
+	} catch (error) {
+		console.error('Error fetching articles:', error);
+		res.status(500).json({ error: 'Failed to fetch articles' });
+	}
 });
 
 /**
@@ -73,21 +73,21 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
  *               $ref: '#/components/schemas/Error'
  */
 router.get('/:articleId', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const articleId = Number(req.params.articleId);
-    const db = getDatabase();
-    const [article] = await db.select().from(articles).where(eq(articles.id, articleId));
+	try {
+		const articleId = Number(req.params.articleId);
+		const db = getDatabase();
+		const [article] = await db.select().from(articles).where(eq(articles.id, articleId));
 
-    if (!article) {
-      res.status(404).json({ error: 'Article not found' });
-      return;
-    }
+		if (!article) {
+			res.status(404).json({ error: 'Article not found' });
+			return;
+		}
 
-    res.json(article);
-  } catch (error) {
-    console.error('Error fetching article:', error);
-    res.status(500).json({ error: 'Failed to fetch article' });
-  }
+		res.json(article);
+	} catch (error) {
+		console.error('Error fetching article:', error);
+		res.status(500).json({ error: 'Failed to fetch article' });
+	}
 });
 
 /**
@@ -129,22 +129,22 @@ router.get('/:articleId', async (req: Request, res: Response): Promise<void> => 
  *               $ref: '#/components/schemas/Error'
  */
 router.post('/', authMiddleware, async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { title, shortDescription, description } = req.body;
-    const db = getDatabase();
+	try {
+		const { title, shortDescription, description } = req.body;
+		const db = getDatabase();
 
-    const [result] = await db.insert(articles).values({
-      title,
-      shortDescription,
-      description,
-    });
+		const [result] = await db.insert(articles).values({
+			title,
+			shortDescription,
+			description,
+		});
 
-    const [article] = await db.select().from(articles).where(eq(articles.id, result.insertId));
-    res.status(201).json(article);
-  } catch (error) {
-    console.error('Error creating article:', error);
-    res.status(500).json({ error: 'Failed to create article' });
-  }
+		const [article] = await db.select().from(articles).where(eq(articles.id, result.insertId));
+		res.status(201).json(article);
+	} catch (error) {
+		console.error('Error creating article:', error);
+		res.status(500).json({ error: 'Failed to create article' });
+	}
 });
 
 /**
@@ -196,32 +196,32 @@ router.post('/', authMiddleware, async (req: Request, res: Response): Promise<vo
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.patch('/:articleId', authMiddleware,async (req: Request, res: Response): Promise<void> => {
-  try {
-    const articleId = Number(req.params.articleId);
-    const { title, shortDescription, description } = req.body;
-    const db = getDatabase();
+router.patch('/:articleId', authMiddleware, async (req: Request, res: Response): Promise<void> => {
+	try {
+		const articleId = Number(req.params.articleId);
+		const { title, shortDescription, description } = req.body;
+		const db = getDatabase();
 
-    const [result] = await db
-      .update(articles)
-      .set({
-        title,
-        shortDescription,
-        description,
-      })
-      .where(eq(articles.id, articleId));
+		const [result] = await db
+			.update(articles)
+			.set({
+				title,
+				shortDescription,
+				description,
+			})
+			.where(eq(articles.id, articleId));
 
-    if (!result.affectedRows) {
-      res.status(404).json({ error: 'Article not found' });
-      return;
-    }
+		if (!result.affectedRows) {
+			res.status(404).json({ error: 'Article not found' });
+			return;
+		}
 
-    const [article] = await db.select().from(articles).where(eq(articles.id, articleId));
-    res.json(article);
-  } catch (error) {
-    console.error('Error updating article:', error);
-    res.status(500).json({ error: 'Failed to update article' });
-  }
+		const [article] = await db.select().from(articles).where(eq(articles.id, articleId));
+		res.json(article);
+	} catch (error) {
+		console.error('Error updating article:', error);
+		res.status(500).json({ error: 'Failed to update article' });
+	}
 });
 
 /**
@@ -254,22 +254,22 @@ router.patch('/:articleId', authMiddleware,async (req: Request, res: Response): 
  *               $ref: '#/components/schemas/Error'
  */
 router.delete('/:articleId', authMiddleware, async (req: Request, res: Response): Promise<void> => {
-  try {
-    const articleId = Number(req.params.articleId);
-    const db = getDatabase();
+	try {
+		const articleId = Number(req.params.articleId);
+		const db = getDatabase();
 
-    const [result] = await db.delete(articles).where(eq(articles.id, articleId));
+		const [result] = await db.delete(articles).where(eq(articles.id, articleId));
 
-    if (!result.affectedRows) {
-      res.status(404).json({ error: 'Article not found' });
-      return;
-    }
+		if (!result.affectedRows) {
+			res.status(404).json({ error: 'Article not found' });
+			return;
+		}
 
-    res.status(204).end();
-  } catch (error) {
-    console.error('Error deleting article:', error);
-    res.status(500).json({ error: 'Failed to delete article' });
-  }
+		res.status(204).end();
+	} catch (error) {
+		console.error('Error deleting article:', error);
+		res.status(500).json({ error: 'Failed to delete article' });
+	}
 });
 
 export default router;
