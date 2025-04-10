@@ -114,6 +114,12 @@ router.get('/:articleId', async (req: Request, res: Response): Promise<void> => 
  *               description:
  *                 type: string
  *                 description: The full article content
+ *               image:
+ *                 type: string
+ *                 description: Base64 encoded image data
+ *               imageAlt:
+ *                 type: string
+ *                 description: Alternative text for the image
  *     responses:
  *       201:
  *         description: The article was successfully created
@@ -130,13 +136,15 @@ router.get('/:articleId', async (req: Request, res: Response): Promise<void> => 
  */
 router.post('/', authMiddleware, async (req: Request, res: Response): Promise<void> => {
   try {
-    const { title, shortDescription, description } = req.body;
+    const { title, shortDescription, description, image, imageAlt } = req.body;
     const db = getDatabase();
 
     const [result] = await db.insert(articles).values({
       title,
       shortDescription,
       description,
+      image,
+      imageAlt,
     });
 
     const [article] = await db.select().from(articles).where(eq(articles.id, result.insertId));
@@ -176,6 +184,12 @@ router.post('/', authMiddleware, async (req: Request, res: Response): Promise<vo
  *               description:
  *                 type: string
  *                 description: The full article content
+ *               image:
+ *                 type: string
+ *                 description: Base64 encoded image data
+ *               imageAlt:
+ *                 type: string
+ *                 description: Alternative text for the image
  *     responses:
  *       200:
  *         description: The article was updated
@@ -199,7 +213,7 @@ router.post('/', authMiddleware, async (req: Request, res: Response): Promise<vo
 router.patch('/:articleId', authMiddleware, async (req: Request, res: Response): Promise<void> => {
   try {
     const articleId = Number(req.params.articleId);
-    const { title, shortDescription, description } = req.body;
+    const { title, shortDescription, description, image, imageAlt } = req.body;
     const db = getDatabase();
 
     const [result] = await db
@@ -208,6 +222,8 @@ router.patch('/:articleId', authMiddleware, async (req: Request, res: Response):
         title,
         shortDescription,
         description,
+        image,
+        imageAlt,
       })
       .where(eq(articles.id, articleId));
 

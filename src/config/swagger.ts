@@ -18,7 +18,7 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: 'http://localhost:3000/api/v1',
+      url: 'http://localhost:3000',
       description: 'Development server',
     },
   ],
@@ -44,6 +44,14 @@ const swaggerDefinition = {
             type: 'string',
             description: 'The full description of the article',
           },
+          image: {
+            type: 'string',
+            description: 'Base64 encoded image data for the article',
+          },
+          imageAlt: {
+            type: 'string',
+            description: 'Alternative text for the image',
+          },
           createdAt: {
             type: 'string',
             format: 'date-time',
@@ -60,6 +68,8 @@ const swaggerDefinition = {
           title: 'Sample Article',
           shortDescription: 'This is a sample article',
           description: 'This is the full description of the sample article.',
+          image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+          imageAlt: 'Sample image for the article',
           createdAt: '2025-04-03T04:30:00.000Z',
           updatedAt: '2025-04-03T04:30:00.000Z',
         },

@@ -1,4 +1,4 @@
-import { mysqlTable, varchar, int, timestamp, text, bigint, index } from 'drizzle-orm/mysql-core';
+import { mysqlTable, varchar, int, timestamp, text, bigint, index, longtext } from 'drizzle-orm/mysql-core';
 
 // Users table
 export const users = mysqlTable('users', {
@@ -27,6 +27,8 @@ export const articles = mysqlTable('articles', {
   title: varchar('title', { length: 255 }),
   shortDescription: varchar('short_description', { length: 255 }),
   description: text('description'),
+  image: longtext('image'),
+  imageAlt: varchar('image_alt', { length: 255 }),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow(),
 });
